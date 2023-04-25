@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const labels=["un auto", "un pez", "una casa", "un árbol","una bicicleta", "una guitarra", "un lápiz", "un reloj"];
+const labels=["car", "fish", "house", "tree","bicycle", "guitar", "pencil", "watch"];
 
 type Props = {
   handleIsDone:()=>void
@@ -21,6 +21,7 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
       contextRef.current = context;
     },[])
 
+    //desktop handlers
     const handleMouseDown = (e: any) => {
       const mouse = getMousePos(canvasRef.current!, e);
       setPaths([...paths, [mouse]]); // add beginning of path
@@ -39,7 +40,20 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
     const handleMouseUp = () => {
       setIsDrawing(false);
     }
+    // mobile handlers
+    const handleTouchStart=(e:any)=>{
+      const loc=e.touches[0];
+      handleMouseDown(loc);
+   }
 
+   const handleTouchMove = (e:any)=>{
+      const loc=e.touches[0];
+      handleMouseMove(loc);
+   }
+
+   const handleTouchEnd=()=>{
+      handleMouseUp();
+   }
 
     //utils
     const drawPath = (path:any[]) => {
@@ -114,13 +128,16 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
   return (
     <div className="w-full p-4 min-h-screen bg-gradient-to-r from-[#374151] via-[#111827] to-black flex justify-center">
     <div className="pt-10 w-full max-w-[500px] ">
-        <h1 className="text-[#eee] font-bold text-center text-5xl mb-4">please draw a: { labels[currentDraw] } </h1>
+        <h1 className="text-[#eee] font-bold text-center text-2xl sm:text-4xl mb-10">please draw a: { labels[currentDraw] } </h1>
         <div id="sketchPadContainer">
             <canvas
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              ref={canvasRef} className='bg-[#eee] shadow-lg shadow-black mx-auto' width="280" height="280" ></canvas>
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              ref={canvasRef} className='bg-[#eee] shadow-lg shadow-black mx-auto' width="250" height="250" ></canvas>
         </div>
         <div className="flex justify-center mt-5 gap-2">
           <button onClick={handleUndo} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Undo</button>

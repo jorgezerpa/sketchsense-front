@@ -8,15 +8,25 @@ type PROPS = {
 export const WelcomeScreen = ({ inputRef, handleSubmit }:PROPS) => {
   return (
     <div className="w-full p-4 min-h-screen bg-gradient-to-r from-[#374151] via-[#111827] to-black flex justify-center">
-    <div className="pt-10 w-full max-w-[500px] ">
-        <h1 className="text-[#eee] font-bold text-center text-5xl mb-4">Draw Recognition </h1>
-        <div className="text-white text-center mb-10">
-        This project involves using machine learning and JavaScript to create an algorithm that can recognize drawings. The project may involve training a learning model using labeled data and implementing the trained model using JavaScript in a web application. The end result would be a web-based tool that can recognize the drawing and provide relevant information or actions based on the recognized input.              
+    <div className="pt-20 w-full max-w-[600px] ">
+        <h1 className="text-[#eee] font-bold text-center text-4xl sm:text-7xl md:text-8xl mb-16">SketchSense </h1>
+        <div className="text-gray-300 text-justify mb-10 ">
+        This project involves using machine learning and JavaScript to create an algorithm that can recognize drawings. 
+        <br /><br /> 
+        The project may involve training a learning model using labeled data and implementing the trained model using JavaScript in a web application. The end result would be a web-based tool that can recognize the drawing and provide relevant information or actions based on the recognized input.              
+        <br /><br /><br />
+        <span className='font-bold'>
+          In the main fact, we need data... more specifically, we need draws! So, here as the steps to follow:
+        </span>
         </div>
-        <ul className="text-white mb-5">
+        <ul className="text-white mb-5 max-w-[570px] px-2 mx-auto">
           <li><span>1. </span> Introduce your name in the below input and click start</li>
-          <li><span>2. </span> You will see a white sketched when you have to draw what is asked of you</li>
+          <br />
+          <li><span>2. </span> You will see a white board when you have to draw what is asked of you</li>
         </ul>
+          <br />
+          <br />
+          <br />
         <div className="text-white mb-10">
           There are 8-10 drawings to be done. Good luck and have fun!
         </div>

@@ -14,7 +14,10 @@ export default function Home() {
   });
 
   const handleSubmit = () => {  
-    if(!inputRef.current?.value) return
+    if(!inputRef.current?.value) {
+      alert('please enter your name')
+      return
+    }
     setData({ ...data, artist: inputRef.current.value });
     setShowSketchPad(true);
   }
@@ -26,7 +29,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({data})
       })
       if(res.status === 200) setIsDone(true)
     } catch (error) {
