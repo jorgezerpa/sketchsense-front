@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { features  } from '@/utils/features';
 
 const labels=["car", "fish", "house", "tree","bicycle", "guitar", "pencil", "watch"];
 
 type Props = {
-  handleIsDone?:()=>void
-  setNewDrawing?:(label:string, drawing:[number, number][][])=>void
+  handleSetfeatures: (features: any) => void;
+  coincidenceLabel: string;
 }
 
-export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
+export const RealTimeSketchPad = ({handleSetfeatures,coincidenceLabel}:Props) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
     const [paths, setPaths] = useState<any[]>([]); // array of paths -> each path is a tuple of x,y coordinates
     const [isDrawing, setIsDrawing] = useState(false);
-    const [currentDraw, setCurrentDraw] = useState(0);
+    // const [currentDraw, setCurrentDraw] = useState(0);
 
     useEffect(() => {
       if(!canvasRef.current) return
@@ -38,6 +39,9 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
     }
 
     const handleMouseUp = () => {
+      const pathsFeature = features.getPathCount(paths)
+      const pointsFeature = features.getPointCount(paths)
+      handleSetfeatures([pathsFeature, pointsFeature])
       setIsDrawing(false);
     }
     // mobile handlers
@@ -100,20 +104,7 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
     }
 
 
-    //buttons
-    const handleNext = () => {
-      if(paths.length<=0) {
-        alert('draw something first')
-        return
-      }
-      setNewDrawing && setNewDrawing(labels[currentDraw], paths)
-      reset()
-      setCurrentDraw(currentDraw+1)
-      if(currentDraw+1==labels.length){
-        handleIsDone && handleIsDone()
-      }
-    }
-    
+    //buttons    
     const handleUndo = () => {
       if(paths.length<=0 || !canvasRef.current) return
       const newPaths = paths.slice(0, paths.length - 1)
@@ -126,24 +117,23 @@ export const SketchPad = ({handleIsDone, setNewDrawing}:Props) => {
 
 
   return (
-    <div className="w-full p-4 min-h-screen bg-gradient-to-r from-[#374151] via-[#111827] to-black flex justify-center">
-    <div className="pt-20 w-full max-w-[500px] ">
-        <h1 className="text-[#eee] text-center text-2xl mb-10">please draw a: <span className='font-bold'>{ labels[currentDraw] }</span></h1>
-        <div id="sketchPadContainer">
-            <canvas
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              ref={canvasRef} className='bg-[#eee] shadow-lg shadow-black mx-auto' width="250" height="250" ></canvas>
-        </div>
-        <div className="flex justify-center mt-5 gap-2">
-          <button onClick={handleUndo} className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-1 px-3 rounded">Undo</button>
-          <button onClick={handleNext} className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-1 px-3 rounded">Next</button>
-        </div>
+    <div className="w-full h-full p-4 border bg-gradient-to-r from-[#374151] via-[#111827] to-black flex justify-center">
+      <div className="pt-2 w-full max-w-[500px] ">
+          <div id="sketchPadContainer">
+              <div className='text-center font-bold mb-2'>You are drawing a: { coincidenceLabel }</div>
+              <canvas
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                ref={canvasRef} className='bg-[#eee] shadow-lg shadow-black mx-auto' width="250" height="250" ></canvas>
+          </div>
+          <div className="flex justify-center mt-5 gap-2">
+            <button onClick={handleUndo} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Undo</button>
+          </div>
+      </div>
     </div>
-  </div>
   )
 }
