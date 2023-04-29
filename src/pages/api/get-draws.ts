@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const _URL = 'http://localhost:3001/dataset-json' 
+const _URL = 'https://sketchsense-api.zerpacode.com/dataset-json' 
 
 // type Data = {
 //   status: string

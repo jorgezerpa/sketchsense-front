@@ -144,7 +144,7 @@ export default function DataViewer() {
               <div className="w-[100px] shrink-0">{draws[key][0].artist_name}</div>
               { draws[key].map((draw:any, i:number)=>(
                 <div id={`drawCard${draw.id}`} key={draw.label+key+index} className={`shrink-0 w-[100px] flex items-center bg-white rounded-lg overflow-hidden ${selectedDraw==draw.id && 'border-8 border-yellow-400'}`}>
-                  <img className="w-[100%] border border-white" src={`http://localhost:3001/images/${draw.id}.png`} alt="" />
+                  <img className="w-[100%] border border-white" src={`https://sketchsense-api.zerpacode.com/images/${draw.id}.png`} alt="" />
                 </div>
               )) }
             </div>
